@@ -65,6 +65,14 @@ form {
   border-radius: 10px;
 }
 
+.text-center1 {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  gap: 1rem;
+}
+
 form label {
   font-size: 1rem;
   margin-bottom: 0.5rem;

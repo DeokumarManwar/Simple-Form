@@ -24,20 +24,18 @@ function caesarCipher(text, shift) {
 router.post("/register", async (req, res) => {
   try {
     const { userName, password, email } = req.body;
-
-    // Apply SHA-1 hash to the password
+    console.log(userName, password, email);
+    // Apply Caesar Cipher to the password and then SHA-1 hash it
+    const encryptedPassword = caesarCipher(password, 3); // Apply Caesar Cipher
     const sha1Password = crypto
       .createHash("sha1")
-      .update(password)
-      .digest("hex");
-
-    // Apply Caesar Cipher to the SHA-1 hash (e.g., shift by 3 positions)
-    const encryptedPassword = caesarCipher(sha1Password, 3);
+      .update(encryptedPassword)
+      .digest("hex"); // Apply SHA-1 hash to the Caesar Cipher result
 
     const newUser = await user.create({
       userName: userName,
       email: email,
-      password: encryptedPassword,
+      password: sha1Password,
     });
 
     res.status(201).json({
@@ -54,18 +52,23 @@ router.post("/login", async (req, res) => {
 
   const foundUser = await user.findOne({ userName: userName });
 
+  console.log(foundUser);
+
   if (!foundUser) {
     res.status(404).json({ message: "User not found" });
     return;
   }
 
-  // Decrypt the stored password using Caesar Cipher (e.g., shift by 3 positions)
-  const decryptedPassword = caesarCipher(foundUser.password, -3);
+  // Apply Caesar Cipher to the password and then SHA-1 hash it
+  const encryptedPassword = caesarCipher(password, 3); // Apply Caesar Cipher
+  const sha1Password = crypto
+    .createHash("sha1")
+    .update(encryptedPassword)
+    .digest("hex"); // Apply SHA-1 hash to the Caesar Cipher result
 
-  // Apply SHA-1 hash to the provided password and compare with the stored password
-  const sha1Password = crypto.createHash("sha1").update(password).digest("hex");
+  console.log(foundUser.password, sha1Password);
 
-  if (decryptedPassword === sha1Password) {
+  if (foundUser.password === sha1Password) {
     res
       .status(200)
       .json({ message: "Authentication successful", user: foundUser });

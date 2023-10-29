@@ -7,9 +7,9 @@ import BackgroundImage from "../../assets/images/bg.png";
 export const LandingPage = () => {
   return (
     <header style={HeaderStyle}>
-      <h1 className="main-title text-center">login / register page</h1>
-      <p className="main-para text-center">join us now and don't waste time</p>
-      <div className="buttons text-center">
+      <h1 className="main-title text-center1">login / register page</h1>
+      <p className="main-para text-center1">join us now and don't waste time</p>
+      <div className="buttons text-center1">
         <Link to="/login">
           <button className="primary-button">log in</button>
         </Link>

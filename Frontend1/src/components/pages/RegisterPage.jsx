@@ -10,7 +10,7 @@ export const SignUpPage = () => {
 
   const RegisterHandler = async (event) => {
     event.preventDefault();
-    const response = await createUser(username, email, password);
+    const response = await createUser(username, password, email);
     console.log(response);
     if (response.status === 201) {
       alert("User created successfully");
